@@ -59,7 +59,7 @@ def update_rss():
     if str(latest_topic_online) != str(latest_topic_offline):
       print("Nuovo feed, lo invio")
       latest_topic_offline = latest_topic_online[:]
-      bot.send_message(GROUP_ID, "u\U0001F511*Nuova steam key*u\U0001F511"+ "\n" + "\n" +
+      bot.send_message(GROUP_ID, "🔑*Nuova steam key*🔑"+ "\n" + "\n" +
       "» _Il gioco il questione è:_ " + "\n" + rss_url['entries'][0]['title'].replace("_", "\_") + "\n" + "\n" +
       "» _Link alla key:_" + "\n" + rss_url['entries'][0]['link'] + "\n",
       parse_mode="markdown")
