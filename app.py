@@ -55,6 +55,7 @@ def update_rss():
     rss_url = feedparser.parse(rss_main_feed)
     print("Aggiorno il feed RSS...")
     latest_topic_online = rss_url['entries'][0]['title']
+	print(latest_topic_online)
     #latest_topic_offline = 0
     if str(latest_topic_online) != str(latest_topic_offline):
       print("Nuovo feed, lo invio")
