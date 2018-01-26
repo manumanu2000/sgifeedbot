@@ -51,7 +51,7 @@ def hasNumbers(inputString):
 latest_topic_offline = 0
 def update_rss():
     global latest_topic_offline
-    threading.Timer(60.0, update_rss).start()
+    threading.Timer(300.0, update_rss).start()
     rss_url = feedparser.parse(rss_main_feed)
     print("Aggiorno il feed RSS...")
     latest_topic_online = rss_url['entries'][0]['title']
