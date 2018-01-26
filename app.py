@@ -90,135 +90,13 @@ def help(message):
 Io sono il bot ufficiale per i post di SteamGamersInside. Probabilmente non dovresti essere qui, ma lascia che ti spieghi come funziono
 
 *Lista dei comandi:*
-- Uso:
-  `{foo / boo}` - _Choose one between those options_
-  `[number]` - _Compulsory argument_
-  `(number)` - _Optional argument_
-  `'number'` - _Change 'number' for a real number_
 
-- Comandi di gestione
   /start - _Mi avvia_
   /help - _Mostra l'help, ovvero questo messaggio_
   /ping - _Verifica che il bot stia funzionando_
 
 Per qualsiasi domanda, sentiti libero di contattare *Il mio creatore*: """ + ADMIN_NAME + " " + ADMIN_NICKAME, parse_mode="markdown")
 
-
-###################################################################   RSS COMMANDS
-
-
-# Handle /latest_post
-@bot.message_handler(commands=['latest_post'])
-def latest_post(message):
-    bot.reply_to(message, """
-*Unused command* - Use instead `/latest post`
-    """, parse_mode="markdown")
-
-# Handle /latest_topic
-@bot.message_handler(commands=['latest_topic'])
-def latest_post(message):
-    bot.reply_to(message, """
-*Unused command* - Use instead `/latest topic`
-    """, parse_mode="markdown")
-
-# Handle /latest
-@bot.message_handler(commands=['latest'])
-def latest_topic(message):
-    latest_message = message.text
-    latest_get = latest_message.replace('/latest ','')
-    # Sends error if missing argument
-    if latest_get is None:
-        bot.reply_to(message, "*Error: Missing information* - Please send me again the command using this method: `/latest <topic/post>`. If you need more help, send me the command /help", parse_mode="markdown")
-    # If not
-    else:
-        # Handle /latest topic
-        if "topic" in latest_get:
-            rss_url = feedparser.parse(rss_topics_feed)
-            if hasNumbers(latest_get):
-                latest_get_number_list = [int(s) for s in latest_get.split() if s.isdigit()]
-                latest_get_number = ''.join(str(e) for e in latest_get_number_list)
-                if int(latest_get_number) >= 31:
-                    bot.reply_to(message, "*Error: Too many request* - The maximum entries that I can reach is 30. _Try it again_", parse_mode="markdown")
-                else:
-                    # If not in a pm, sends it
-                    if message.chat.type != "private":
-                        bot.reply_to(message, "*I've sent you the latest topics in a Private Message*\n_Remember to start me in your account to allow me to send you the message_", parse_mode="markdown")
-                        counter = 0
-                        message_to_send = "*The latest " + latest_get + " topics in  " + FORUM_NAME + " are* _(ordered from newest to oldest)_*:*\n\n\n"
-                        list_topics = ""
-                        while True:
-                            list_topics = list_topics + "*ID:* " + rss_url['entries'][counter]['id'].replace(FORUM_URL + "-topic-", "") + " - *Title:* [" + rss_url['entries'][counter]['title'] + "](" + rss_url['entries'][counter]['link'] + ")\n\n"
-                            counter = counter + 1
-                            if counter >= int(latest_get_number):
-                                bot.send_message(message.from_user, message_to_send + list_topics, parse_mode="markdown")
-                                break
-                    else:
-                        counter = 0
-                        message_to_send = "*The latest " + latest_get_number + " topics in  " + FORUM_NAME + " are* _(ordered from newest to oldest)_*:*\n\n\n"
-                        list_topics = ""
-                        while True:
-                            list_topics = list_topics + "*ID:* " + rss_url['entries'][counter]['id'].replace(FORUM_URL + "-topic-", "") + " - *Title:* [" + rss_url['entries'][counter]['title'] + "](" + rss_url['entries'][counter]['link'] + ")\n\n"
-                            counter = counter + 1
-                            if counter >= int(latest_get_number):
-                                bot.reply_to(message, message_to_send + list_topics, parse_mode="markdown")
-                                break
-            else:
-                message_to_send = "*This is the latest public topic in the " + FORUM_NAME + "*\n\n" + "*Title:* " + rss_url['entries'][0]['title'] + "\n" + "*Category:* " + rss_url['entries'][0]['category'] + "\n" + "*Author:* " + rss_url['entries'][0]['author'] + "\n\n" + "_See it _[here](" + rss_url['entries'][0]['link'] + ")"
-                # Sends the content of the topic in a pm
-                if message.chat.type != "private":
-                    #message_topic_content = "This is the content of the latest topic:\n\n\n" + rss_url['entries'][0]['description']
-                    #bot.send_message(message.from_user, message_topic_content)
-                    message_to_send = message_to_send + "\n\n\nI've also sent you the content of the first message of the topic in a Private Message to prevent flooding. _Remember to start me in Private_"
-                    bot.reply_to(message, message_to_send, parse_mode="markdown")
-                else:
-                    bot.reply_to(message, message_to_send, parse_mode="markdown")
-                    message_topic_content = "And this is the content of the latest topic:\n\n\n" + rss_url['entries'][0]['description']
-                    #bot.reply_to(message, message_topic_content)
-        # Handle /latest post
-        elif "post" in latest_get:
-            rss_url = feedparser.parse(rss_posts_feed)
-            if hasNumbers(latest_get):
-                latest_get_number_list = [int(s) for s in latest_get.split() if s.isdigit()]
-                latest_get_number = ''.join(str(e) for e in latest_get_number_list)
-                if int(latest_get_number) >= 27:
-                    bot.reply_to(message, "*Error: Too many request* - The maximum entries that I can reach is 26. _Try it again_", parse_mode="markdown")
-                else:
-                    # If not in a pm, sends it
-                    if message.chat.type != "private":
-                        bot.reply_to(message, "*I've sent you the latest topics in a Private Message*\n_Remember to start me in your account to allow me to send you the message_", parse_mode="markdown")
-                        counter = 0
-                        message_to_send = "*The latest " + latest_get + " topics in  " + FORUM_NAME + " are* _(ordered from newest to oldest)_*:*\n\n\n"
-                        list_topics = ""
-                        while True:
-                            list_topics = list_topics + "*ID:* " + rss_url['entries'][counter]['id'].replace(FORUM_URL + "-post-", "") + " - *Title:* [" + rss_url['entries'][counter]['title'] + "](" + rss_url['entries'][counter]['link'] + ")\n\n"
-                            counter = counter + 1
-                            if counter >= int(latest_get_number):
-                                bot.send_message(message.from_user, message_to_send + list_topics, parse_mode="markdown")
-                                break
-                    else:
-                        counter = 0
-                        message_to_send = "*The latest " + latest_get_number + " topics in  " + FORUM_NAME + " are* _(ordered from newest to oldest)_*:*\n\n\n"
-                        list_topics = ""
-                        while True:
-                            list_topics = list_topics + "*ID:* " + rss_url['entries'][counter]['id'].replace(FORUM_URL + "-topic-", "") + " - *Title:* [" + rss_url['entries'][counter]['title'] + "](" + rss_url['entries'][counter]['link'] + ")\n\n"
-                            counter = counter + 1
-                            if counter >= int(latest_get_number):
-                                bot.reply_to(message, message_to_send + list_topics, parse_mode="markdown")
-                                break
-            else:
-                message_to_send = """*This is the latest public post in the """ + FORUM_NAME + """*\n\n""" + "*Main topic:* " + rss_url['entries'][0]['title'] + "\n" + "*Author:* " + rss_url['entries'][0]['author'] + "\n\n" + "_See it _[here](" + rss_url['entries'][0]['link'] + ")"
-                # Sends the content of the post in a pm
-                if message.chat.type != "private":
-                    #message_topic_content = "This is the content of the latest post:\n\n\n" + rss_url['entries'][0]['description']
-                    #bot.send_message(message.from_user, message_topic_content)
-                    message_to_send = message_to_send + "\n\n\nI've also sent you the content of the post in a Private Message to prevent flooding. _Remember to start me in Private_"
-                    bot.reply_to(message, message_to_send, parse_mode="markdown")
-                else:
-                    bot.reply_to(message, message_to_send, parse_mode="markdown")
-                    message_topic_content = "And this is the content of the latest post:\n\n\n" + rss_url['entries'][0]['description']
-                    #bot.reply_to(message, message_topic_content)
-        else:
-            bot.reply_to(message, "*Error: Unrecognized request* - Please, checkout the command /help to get a complete list of supported commands", parse_mode="markdown")
 
 
 ###################################################################   MANAGER

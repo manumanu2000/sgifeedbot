@@ -16,6 +16,4 @@ FORUM_PROTOCOL = "http://"
 FORUM_URL = "lorem-rss.herokuapp.com"
 
 # Declare the Feeds
-rss_topics_feed = (FORUM_PROTOCOL + FORUM_URL + '/feed?unit=second&interval=30')
-rss_posts_feed = (FORUM_PROTOCOL + FORUM_URL + '/feed?unit=second&interval=30')
-rss_main_feed = (FORUM_PROTOCOL + FORUM_URL + '/feed?unit=second&interval=30')
+rss_main_feed = (FORUM_PROTOCOL + FORUM_URL + '/feed?unit=second&interval=300')
