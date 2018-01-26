@@ -8,7 +8,7 @@ ADMIN_ID = "36163179"
 
 # Declare the main group
 GROUP_NAME = "SteamGamersInside"
-GROUP_ID = "-185377680"
+GROUP_ID = "-1001129002552"
 
 #Declare the Forum
 FORUM_NAME = "SteamGamersInside"
