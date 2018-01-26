@@ -1,5 +1,5 @@
 # Declare the Token
-API_TOKEN = '549579824:AAEF82OY7ZgXfp2IyzOdwGiyBj9hizCFgsc'
+API_TOKEN = ''
 
 # Declare the Bot Admin
 ADMIN_NAME = "Manuel Materazzo"
